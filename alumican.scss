@@ -1,0 +1,347 @@
+
+// ----------------------------------------
+// Config
+$image-directory: '../img';
+
+$bp-narrow-mobile : 320px;
+$bp-mobile-tablet : 480px;
+$bp-tablet-desktop: 900px;
+
+$default-font-size: 1rem;
+$default-line-height: 100%;
+
+
+
+
+// ----------------------------------------
+// Language
+@mixin lang-ja() {
+	.lang-ja & {
+		@content;
+	}
+}
+
+@mixin lang-en() {
+	.lang-en & {
+		@content;
+	}
+}
+
+
+
+
+
+// ----------------------------------------
+// Interaction
+@mixin hover-action() {
+	pointer-events: auto;
+	&:hover {
+		cursor: pointer;
+		@content;
+	}
+}
+
+
+
+
+
+// ----------------------------------------
+// Text
+@mixin enable-text($font-size: $default-font-size, $line-height: $default-line-height) {
+	font-size: $font-size;
+	line-height: $line-height;
+}
+
+@mixin disable-text {
+	font-size: 0;
+	line-height: 0;
+}
+
+@mixin aligned-text-centering($wrapper, $content, $text-align: left) {
+	#{$wrapper} {
+		text-align: center;
+	}
+	#{$content} {
+		display: inline-block;
+		text-align: $text-align;
+	}
+}
+
+
+
+
+
+// ----------------------------------------
+// Image
+@function image-url($filename) {
+	@return url($image-directory + '/' + $filename);
+}
+
+@mixin background-image($filename, $width, $height:$width) {
+	width: $width;
+	height: $height;
+	background-image: image-url($filename);
+	background-size: $width $height;
+	background-repeat: no-repeat;
+}
+
+
+
+
+
+// ----------------------------------------
+// Layout
+@mixin absolute($z-index: auto) {
+	position: absolute;
+	z-index: $z-index;
+}
+
+@mixin absolute-tl($top: 0, $left: 0, $z-index: auto) {
+	@include absolute($z-index);
+	top: $top;
+	left: $left;
+}
+
+@mixin absolute-tr($top: 0, $right: 0, $z-index: auto) {
+	@include absolute($z-index);
+	top: $top;
+	right: $right;
+}
+
+@mixin absolute-bl($bottom: 0, $left: 0, $z-index: auto) {
+	@include absolute($z-index);
+	bottom: $bottom;
+	left: $left;
+}
+
+@mixin absolute-br($bottom: 0, $right: 0, $z-index: auto) {
+	@include absolute($z-index);
+	bottom: $bottom;
+	right: $right;
+}
+
+@mixin size($width, $height: $width) {
+	width: $width;
+	height: $height;
+}
+
+@mixin padding-border-box($padding) {
+	box-sizing: border-box;
+	padding: $padding;
+}
+
+@mixin padding-top-border-box($padding) {
+	box-sizing: border-box;
+	padding-top: $padding;
+}
+
+@mixin padding-left-border-box($padding) {
+	box-sizing: border-box;
+	padding-left: $padding;
+}
+
+@mixin padding-bottom-border-box($padding) {
+	box-sizing: border-box;
+	padding-bottom: $padding;
+}
+
+@mixin padding-right-border-box($padding) {
+	box-sizing: border-box;
+	padding-right: $padding;
+}
+
+@mixin enable-safe-area() {
+	html {
+		padding-bottom: env(safe-area-inset-bottom);
+	}
+}
+
+@mixin clearfix() {
+	&::after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+}
+
+
+
+
+
+// ----------------------------------------
+// Centering
+@mixin centering-absolute-x {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@mixin centering-absolute-y {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+@mixin centering-absolute {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+
+@mixin centering-transform-x {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+@mixin centering-transform-y {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+@mixin centering-transform {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50% -50%);
+}
+
+
+
+
+
+// ----------------------------------------
+// Selection
+@mixin first {
+	&:first-child {
+		@content;
+	}
+}
+
+@mixin last {
+	&:last-child {
+		@content;
+	}
+}
+
+@mixin not-first {
+	&:not(:first-child) {
+		@content;
+	}
+}
+
+@mixin not-last {
+	&:not(:last-child) {
+		@content;
+	}
+}
+
+@mixin root-class($selector) {
+	#{'.' + $selector} & {
+		@content;
+	}
+}
+
+
+
+
+
+// ----------------------------------------
+// Responsive query
+// $bp-narrow-mobile < mobile <= $bp-mobile-tablet < tablet <= $bp-tablet-desktop < desktop
+
+@mixin narrow {
+	@media screen and (max-width: $bp-narrow-mobile) {
+		@content;
+	}
+}
+
+@mixin mobile {
+	@media screen and (min-width: $bp-narrow-mobile + 1px) and (max-width: $bp-mobile-tablet) {
+		@content;
+	}
+}
+
+@mixin tablet {
+	@media screen and (min-width: $bp-mobile-tablet + 1px) and (max-width: $bp-tablet-desktop) {
+		@content;
+	}
+}
+
+@mixin desktop {
+	@media screen and (min-width: $bp-tablet-desktop + 1px) {
+		@content;
+	}
+}
+
+
+@mixin not-narrow {
+	@media screen and (min-width: $bp-narrow-mobile + 1px) {
+		@content;
+	}
+}
+
+@mixin not-mobile {
+	@media screen and (max-width: $bp-narrow-mobile), screen and (min-width: $bp-mobile-tablet + 1px) {
+		@content;
+	}
+}
+
+@mixin not-tablet {
+	@media screen and (max-width: $bp-mobile-tablet), screen and (min-width: $bp-tablet-desktop + 1px) {
+		@content;
+	}
+}
+
+@mixin not-desktop {
+	@media screen and (max-width: $bp-tablet-desktop) {
+		@content;
+	}
+}
+
+
+@mixin gt-mobile {
+	@media screen and (min-width: $bp-narrow-mobile + 1px) {
+		@content;
+	}
+}
+
+@mixin gt-tablet {
+	@media screen and (min-width: $bp-mobile-tablet + 1px) {
+		@content;
+	}
+}
+
+@mixin gt-desktop {
+	@media screen and (min-width: $bp-tablet-desktop + 1px) {
+		@content;
+	}
+}
+
+
+@mixin lt-narrow {
+	@media screen and (max-width: $bp-narrow-mobile) {
+		@content;
+	}
+}
+
+@mixin lt-mobile {
+	@media screen and (max-width: $bp-mobile-tablet) {
+		@content;
+	}
+}
+
+@mixin lt-tablet {
+	@media screen and (max-width: $bp-tablet-desktop) {
+		@content;
+	}
+}
