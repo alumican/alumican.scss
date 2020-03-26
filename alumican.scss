@@ -33,12 +33,28 @@ $default-line-height: 100%;
 
 // ----------------------------------------
 // Interaction
+
 @mixin hover-action() {
 	pointer-events: auto;
 	&:hover {
 		cursor: pointer;
 		@content;
 	}
+}
+
+@mixin box-button($font-size, $width, $height, $text-color: #fff, $background-color: #000, $border: none, $border-radius: 0px) {
+	display: inline-block;
+	width: $width;
+	height: $height;
+	box-sizing: border-box;
+	text-align: center;
+	text-decoration: none;
+	line-height: $height;
+	outline: none;
+	background-color: $background-color;
+	color: $text-color;
+	border: $border;
+	border-radius: $border-radius;
 }
 
 
@@ -161,6 +177,12 @@ $default-line-height: 100%;
 		content: '';
 		display: block;
 		clear: both;
+	}
+}
+
+@mixin enable-safe-area() {
+	html {
+		padding-bottom: env(safe-area-inset-bottom);
 	}
 }
 
